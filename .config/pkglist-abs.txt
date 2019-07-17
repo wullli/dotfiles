@@ -1,0 +1,12 @@
+compton
+htop
+terminator
+vlc
+dunst
+rofi
+zsh
+feh
+nm-applet
+pulseaudio
+system-config-printer
+pavucontrol

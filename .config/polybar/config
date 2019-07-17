@@ -1,0 +1,479 @@
+;=====================================================
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   A good example can be found on
+;   http://ix.io/1T5W
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+[colors]
+background = ${xrdb:color0:#FF242a34}
+;background = 00ffffff
+background-alt = ${xrdb:color0:#FF242a34}
+;background-alt = 00ffffff
+foreground = ${xrdb:color7:#FFa7adba}
+foreground-alt = #979daa
+primary = ${xrdb:color4:#FFbf616a}
+secondary = #00aaff
+alert = ${xrdb:color1}
+battery-charging = #00aaff
+battery-discharging = #ffaa00
+battery-full = #00ffaa
+
+[bar/top]
+monitor = ${env:MONITOR:eDP-1}
+;bottom = true
+width = 100%
+height = 42
+offset-x = 0
+offset-y = 0
+;radius = 6.0
+;fixed-center = false
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+;line-size = 2
+;line-color = #f00
+
+underline-size = 2
+underline-color = ${colors.foreground}
+
+;border-size = 20
+;border-size = 10
+border-size = 0
+border-bottom-size = 0
+;border-color = #00000000
+
+padding-left = 0
+;padding-right = 2
+padding-right = 3
+module-margin-left = 2
+module-margin-right = 2
+
+font-0 = Monaco:pixelsize=12;2
+;font-1 = FontAwesome:size=12;2
+font-1 = Font Awesome 5 Free:pixelsize=12;3
+font-2 = Font Awesome 5 Free Solid:pixelsize=12;3
+font-3 = Font Awesome 5 Brands:pixelsize=12;3
+
+modules-left = i3
+modules-center = xwindow
+modules-right = battery wlan alsa cpu memory date
+
+; Position of the system tray window
+; If empty or undefined, tray support will be disabled
+; NOTE: A center aligned tray will cover center aligned modules
+;
+; Available positions:
+;   left
+;   center
+;   right
+tray-position = right
+
+; If true, the bar will not shift its
+; contents when the tray changes
+tray-detached = false
+
+; Tray icon max size
+tray-maxsize = 16
+
+; Enable pseudo transparency
+; Will automatically be enabled if a fully transparent
+; background color is defined using `tray-background`
+tray-transparent = false
+
+; Background color for the tray container
+; By default the tray container will use the bar
+; background color.
+; Note: 32 bit alpha blending is not supported.
+tray-background = ${root.background}
+
+; Tray offset defined as pixel value (e.g. 35) or percentage (e.g. 50%)
+tray-offset-x = -10%
+tray-offset-y = 0
+
+; Pad the sides of each tray icon
+tray-padding = 0
+
+; Scale factor for tray clients
+tray-scale = 1.0
+
+
+;[module/xwindow]
+;type = internal/xwindow
+;label = %title:0:120:...%
+;label-padding = 2
+
+[module/xwindow]
+type = internal/xwindow
+label-font = 3
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-background = ${colors.foreground}
+label-focused-foreground = ${colors.background}
+label-focused-underline= ${colors.foreground}
+label-focused-padding = 3
+
+label-occupied = %index%
+label-occupied-padding = 3
+
+label-urgent = %index%!
+label-urgent-background = ${colors.background-alt}
+label-urgent-foreground = ${colors.alert}
+label-urgent-padding = 3
+
+label-empty = %index%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 3
+
+[module/i3]
+type = internal/i3
+
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+strip-wsnumbers = false
+
+; Only show workspaces on the same output as the bar
+;pin-workspaces = true
+
+label-mode-padding = 3
+label-mode-foreground = #000
+label-mode-background = ${colors.primary}
+
+; focused = Active workspace on focused monitor
+label-focused = %name%
+label-focused-background = ${module/bspwm.label-focused-background}
+label-focused-foreground = ${module/bspwm.label-focused-foreground}
+label-focused-underline = ${module/bspwm.label-focused-underline}
+label-focused-padding = ${module/bspwm.label-focused-padding}
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %name%
+label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+
+; visible = Active workspace on unfocused monitor
+label-visible = %name%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %name%
+label-urgent-background = ${module/bspwm.label-urgent-background}
+label-urgent-foreground = ${module/bspwm.label-urgent-foreground}
+label-urgent-padding = ${module/bspwm.label-urgent-padding}
+
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-default = 
+
+;[module/mpd]
+;type = internal/mpd
+;format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+
+;icon-prev = 
+;icon-stop = 
+;icon-play = 
+;icon-pause = 
+;icon-next = 
+
+;label-song-maxlen = 25
+;label-song-ellipsis = true
+
+[module/wlan]
+type = internal/network
+interface = wlp4s0
+interval = 3.0
+
+format-connected = <label-connected>
+;format-connected-underline = #9f78e1
+;label-connected = %essid%
+label-connected = %local_ip%
+
+format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+label-disconnected = no network
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+;ramp-signal-0 = 
+;ramp-signal-1 = 
+;ramp-signal-2 = 
+;ramp-signal-3 = 
+;ramp-signal-4 = 
+;ramp-signal-foreground = ${colors.foreground-alt}
+
+[module/date]
+type = internal/date
+date = "  %H:%M  %{R u#2d2d2d}      %d/%m/%Y  %{R- u-}"
+
+format-padding = 0
+format-background = #ff4279
+format-foreground = #2d2d2d
+format-underline = #ff63a5
+format-overline = #ff63a5
+
+
+[module/alsa]
+type = internal/alsa
+
+format-volume-padding = 2
+format-volume-background = #fff85a
+format-volume-foreground = #43433a
+format-volume-underline = #fffb8f
+format-volume-overline = #fffb8f
+
+format-muted-padding = 2
+format-muted-background = #fff85a
+format-muted-foreground = #43433a
+format-muted-underline = #fffb8f
+format-muted-overline = #fffb8f
+
+label-volume = volume %percentage%%
+label-volume-font = 3
+label-muted = sound muted
+label-muted-font = 3
+
+[module/cpu]
+type = internal/cpu
+interval = 0.5
+
+format = <label>  <ramp-coreload>
+format-background = #66cc99
+format-foreground = #2a5c45
+format-underline = #60eaa5
+format-overline = #60eaa5
+format-padding = 2
+
+label = cpu
+label-font = 3
+
+ramp-coreload-0 = ▁
+ramp-coreload-0-font = 5
+ramp-coreload-0-foreground = #000000
+ramp-coreload-1 = ▂
+ramp-coreload-1-font = 5
+ramp-coreload-1-foreground = #000000
+ramp-coreload-2 = ▃
+ramp-coreload-2-font = 5
+ramp-coreload-2-foreground = #000000
+ramp-coreload-3 = ▄
+ramp-coreload-3-font = 5
+ramp-coreload-3-foreground = #000000
+ramp-coreload-4 = ▅
+ramp-coreload-4-font = 5
+ramp-coreload-4-foreground = #ffffff
+ramp-coreload-5 = ▆
+ramp-coreload-5-font = 5
+ramp-coreload-5-foreground = #ffffff
+ramp-coreload-6 = ▇
+ramp-coreload-6-font = 5
+ramp-coreload-6-foreground = #ff3b51
+ramp-coreload-7 = █
+ramp-coreload-7-font = 5
+ramp-coreload-7-foreground = #ff3b51
+
+[module/memory]
+type = internal/memory
+
+format = <label>  <bar-used>
+format-padding = 2
+format-background = #cb66cc
+format-foreground = #ffe3ff
+format-underline = #e58de6
+format-overline = #e58de6
+
+label = memory
+label-font = 3
+
+bar-used-width = 10
+bar-used-indicator = |
+bar-used-indicator-font = 4
+bar-used-indicator-foreground = #ffaaf5
+bar-used-fill = ─
+bar-used-fill-font = 4
+bar-used-fill-foreground = #ffaaf5
+bar-used-empty = ─
+bar-used-empty-font = 4
+bar-used-empty-foreground = #934e94
+
+[module/battery]
+type = internal/battery
+
+; This is useful in case the battery never reports 100% charge
+full-at = 99
+
+; Use the following command to list batteries and adapters:
+; $ ls -1 /sys/class/power_supply/
+battery = BAT0
+adapter = ADP1
+
+; If an inotify event haven't been reported in this many
+; seconds, manually poll for new values.
+;
+; Needed as a fallback for systems that don't report events
+; on sysfs/procfs.
+;
+; Disable polling by setting the interval to 0.
+;
+; Default: 5
+poll-interval = 5
+
+; see "man date" for details on how to format the time string
+; NOTE: if you want to use syntax tags here you need to use %%{...}
+; Default: %H:%M:%S
+time-format = %H:%M
+
+; Available tags:
+;   <label-charging> (default)
+;   <bar-capacity>
+;   <ramp-capacity>
+;   <animation-charging>
+format-charging = <animation-charging> <label-charging>
+
+; Available tags:
+;   <label-discharging> (default)
+;   <bar-capacity>
+;   <ramp-capacity>
+format-discharging = <ramp-capacity> <label-discharging>
+
+; Available tags:
+;   <label-full> (default)
+;   <bar-capacity>
+;   <ramp-capacity>
+;format-full = <ramp-capacity> <label-full>
+
+; Available tokens:
+;   %percentage% (default)
+;   %time%
+;   %consumption% (shows current charge rate in watts)
+label-charging = ⚡ %percentage%%
+
+; Available tokens:
+;   %percentage% (default)
+;   %time%
+;   %consumption% (shows current discharge rate in watts)
+label-discharging =  %percentage%%
+
+; Available tokens:
+;   %percentage% (default)
+label-full = Fully charged
+
+; Only applies if <ramp-capacity> is used
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+; Only applies if <bar-capacity> is used
+bar-capacity-width = 10
+
+; Only applies if <animation-charging> is used
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+; Framerate in milliseconds
+animation-charging-framerate = 750
+
+[module/backlight]
+type = internal/backlight
+
+card = intel_backlight
+enable-scroll = true
+
+;format = <ramp><label>
+format = <ramp>
+label = %percentage%
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+
+[module/redshift]
+type = custom/script
+interval = 5
+
+exec = ~/.config/polybar/redshift.sh
+click-left = ~/.local/bin/red.sh
+
+;[module/cmus]
+;type = custom/script
+
+;exec = sh ~/.config/polybar/cmus.sh
+;exec-if = pgrep -x cmus
+;interval = 1
+
+;click-left = cmus-remote --pause
+;click-right = cmus-remote --stop
+
+;[module/mpv]
+;type = custom/script
+
+;exec = sh ~/.config/polybar/mpv.sh
+;exec-if = pgrep -x mpv
+;interval = 1
+
+;format = <label>
+;label = %output%
+
+[module/bluetooth]
+type = custom/script
+interval = 5
+
+exec = ~/.config/polybar/bluetooth.sh
+
+[module/powermenu]
+type = custom/menu
+
+format-spacing = 1
+
+label-open = 
+label-open-foreground = ${colors.foreground}
+label-close = 
+label-close-foreground = ${colors.foreground}
+label-separator = |
+label-separator-foreground = ${colors.foreground}
+
+menu-0-0 = reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 = power off
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = cancel
+menu-1-0-exec = menu-open-0
+menu-1-1 = reboot
+menu-1-1-exec = sudo reboot
+
+menu-2-0 = power off
+menu-2-0-exec = sudo poweroff
+menu-2-1 = cancel
+menu-2-1-exec = menu-open-0
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini
